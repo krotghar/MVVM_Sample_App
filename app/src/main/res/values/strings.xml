@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">MVVM Sample</string>
+    <string name="add_task">Add task</string>
+    <string name="enter_task_name">Enter task name</string>
+    <string name="enter_task_description">Enter task description</string>
+    <string name="mark_complete">Mark complete</string>
+    <string name="sample_task_name">Sample task name</string>
+    <string name="sample_task_description">Sample task description</string>
+</resources>

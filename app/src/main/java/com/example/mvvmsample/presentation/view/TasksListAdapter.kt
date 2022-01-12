@@ -1,0 +1,40 @@
+package com.example.mvvmsample.presentation.view
+
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
+import com.example.mvvmsample.databinding.ItemTaskBinding
+import com.example.mvvmsample.presentation.model.ModelTask
+
+class TasksListAdapter() : ListAdapter<ModelTask, ItemTaskViewHolder>(DIFF_CALLBACK) {
+
+    companion object {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ModelTask>() {
+            override fun areItemsTheSame(oldItem: ModelTask, newItem: ModelTask) =
+                oldItem.id == newItem.id
+
+
+            override fun areContentsTheSame(oldItem: ModelTask, newItem: ModelTask) =
+                oldItem == newItem
+
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemTaskViewHolder {
+        val binding = ItemTaskBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return  ItemTaskViewHolder(binding)
+    }
+
+    override fun onBindViewHolder(holder: ItemTaskViewHolder, position: Int) {
+        holder.bind(getItem(position))
+    }
+}
+
+class ItemTaskViewHolder(private val binding: ItemTaskBinding) : RecyclerView.ViewHolder(binding.root) {
+    fun bind(item: ModelTask) {
+        binding.tvTaskName.text = item.taskName
+        binding.tvTaskDescription.text = item.taskDescription
+    }
+}
