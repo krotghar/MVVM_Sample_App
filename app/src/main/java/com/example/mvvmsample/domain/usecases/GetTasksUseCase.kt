@@ -5,7 +5,6 @@ import com.example.mvvmsample.domain.repository.TasksRepository
 
 class GetTasksUseCase(private val tasksRepository: TasksRepository) {
 
-    fun invoke(): List<ModelTask> {
-        return tasksRepository.getTasks()
-    }
+    fun invoke(): List<ModelTask> = tasksRepository.getTasks()
+
 }

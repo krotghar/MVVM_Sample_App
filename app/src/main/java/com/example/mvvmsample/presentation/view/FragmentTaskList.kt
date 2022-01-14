@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -15,9 +17,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mvvmsample.R
 import com.example.mvvmsample.TasksApp
 import com.example.mvvmsample.databinding.FragmentTasksListBinding
+import com.example.mvvmsample.domain.model.ModelTask
 import com.example.mvvmsample.presentation.viewmodel.MainViewModel
 
-class FragmentTaskList : Fragment() {
+class FragmentTaskList : Fragment(), OnItemClickListener {
 
     private lateinit var recyclerAdapter: TasksListAdapter
     private var _binding: FragmentTasksListBinding? = null
@@ -56,7 +59,7 @@ class FragmentTaskList : Fragment() {
     }
 
     private fun initRecycler() {
-        recyclerAdapter = TasksListAdapter()
+        recyclerAdapter = TasksListAdapter(this)
         binding.rcvTasks.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.rcvTasks.adapter = recyclerAdapter
 
@@ -67,5 +70,10 @@ class FragmentTaskList : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun itemOnClicked(item: ModelTask) {
+        val bundle = bundleOf("task" to item)
+        findNavController().navigate(R.id.navigate_to_task, bundle)
     }
 }

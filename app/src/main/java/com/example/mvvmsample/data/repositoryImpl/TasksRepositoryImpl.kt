@@ -7,14 +7,15 @@ import com.example.mvvmsample.domain.model.ModelTask
 import com.example.mvvmsample.domain.repository.TasksRepository
 
 /**
- * Tasks repository impl
- *
- * @property storage передаем
- * @constructor Create empty Tasks repository impl
+ * Иплементация интерфейса репозитория
+ * @property storage интерфейс для работы с хранилищем данных
  */
 class TasksRepositoryImpl(private val storage: TaskDao) : TasksRepository {
 
-
+    /**
+     * Функция получения списка всех задач из Storage
+     * @return лист [ModelTask]
+     */
     override fun getTasks(): List<ModelTask> {
         val tasks = storage.getAllTasks()
         return tasks.map {
@@ -22,34 +23,49 @@ class TasksRepositoryImpl(private val storage: TaskDao) : TasksRepository {
         }
     }
 
+    /**
+     * Получение конкретной задачи по ее id
+     * @param id id задачи
+     * @return возвращает [ModelTask]
+     */
     override fun getTaskById(id: Int): ModelTask {
         val task = storage.getTaskById(id)
         return createModelTaskFromRoomModelTask(task)
     }
 
+    /**
+     * Добавление задачи в хранилище
+     * @param task - задача [ModelTask]
+     */
     override fun addTask(task: ModelTask) {
         storage.insertTask(
             createRoomModelTaskFromModelTask(task)
         )
     }
 
+    /**
+     * Удаление задачи из хранилища
+     * @param task задача которую необходимо удалить
+     */
     override fun removeTask(task: ModelTask) {
         storage.delete(
             createRoomModelTaskFromModelTask(task)
         )
     }
 
+    /**
+     * Получение последнего id задачи
+     * @return возвращает id последней задачи в БД
+     */
     override fun getLastId(): Int {
         return storage.getRowCount()
     }
 
-    override fun findTaskById(id: Int): Boolean {
-        TODO("Not yet implemented")
-    }
+
 
     /**
-     * Create model task from room model task
-     * @param roomModel - Модель используемая в нашем RoomStorage
+     * Маппер моделей из Data слоя в Domain слой
+     * @param roomModel - Модель [RoomModelTask] используемая в нашем RoomStorage
      * @return возвращает модель Domain слоя [ModelTask]
      */
     private fun createModelTaskFromRoomModelTask(roomModel: RoomModelTask?): ModelTask {
@@ -61,8 +77,8 @@ class TasksRepositoryImpl(private val storage: TaskDao) : TasksRepository {
     }
 
     /**
-     * Create room model task from model task
-     * @param modelTask - модель Domain слоя
+     * Маппер моделей из Domain слоя в Data слой
+     * @param modelTask - модель Domain слоя [ModelTask]
      * @return возвращает модель для Room [RoomModelTask]
      */
     private fun createRoomModelTaskFromModelTask(modelTask: ModelTask): RoomModelTask {

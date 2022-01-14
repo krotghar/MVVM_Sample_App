@@ -15,7 +15,12 @@
         <action
             android:id="@+id/navigate_to_task"
             app:destination="@id/fragment_task"
-            />
+            >
+            <argument
+                android:name="task"
+                app:argType="com.example.mvvmsample.domain.model.ModelTask"
+                />
+        </action>
 
         <action
             android:id="@+id/navigate_to_add_new_task"

@@ -4,20 +4,24 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.mvvmsample.presentation.appcomponent.AppComponent
 import com.example.mvvmsample.domain.model.ModelTask
 import com.example.mvvmsample.domain.repository.TasksRepository
 import com.example.mvvmsample.domain.usecases.CreateTaskUseCase
 import com.example.mvvmsample.domain.usecases.GetTasksUseCase
 import com.example.mvvmsample.domain.usecases.RemoveTaskUseCase
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class MainViewModel(private val repository: TasksRepository) : ViewModel() {
 
     private var _tasksLiveData = MutableLiveData<List<ModelTask>>()
     val tasksLiveData get() = _tasksLiveData
+
+    /**
+     * @property _currentTask приватное поле livedata, которая хранит текущий таск
+     * @property currentTask публичное поле для подписки слушателя
+     */
+
 
     private var _addTaskStatus = MutableLiveData<Boolean>()
     val addTaskStatus get() = _addTaskStatus
@@ -42,15 +46,19 @@ class MainViewModel(private val repository: TasksRepository) : ViewModel() {
             getTasks()
         }
     }
-    
-// TODO: переписать
 
-//    fun removeTask(id: Int) {
-//        viewModelScope.launch(Dispatchers.IO) {
-//            RemoveTaskUseCase(repository).invoke()
-//        }
-//        getTasks()
-//    }
+
+    /**
+     * Функция вызывает [RemoveTaskUseCase] для удаления таска
+     *
+     */
+    fun removeTask(task: ModelTask) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _removeTaskStatus.postValue(RemoveTaskUseCase(repository).invoke(task))
+            if (_removeTaskStatus.value == true)
+                getTasks()
+        }
+    }
 
     private fun createModelTask(
         taskName: String = "",

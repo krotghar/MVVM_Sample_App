@@ -14,5 +14,4 @@ interface TasksRepository {
 
     fun getLastId(): Int
 
-    fun findTaskById(id: Int): Boolean
 }
