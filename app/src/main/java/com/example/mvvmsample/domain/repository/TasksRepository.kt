@@ -1,6 +1,6 @@
-package com.example.mvvmsample.presentation.repository
+package com.example.mvvmsample.domain.repository
 
-import com.example.mvvmsample.presentation.model.ModelTask
+import com.example.mvvmsample.domain.model.ModelTask
 
 interface TasksRepository {
 
@@ -13,4 +13,6 @@ interface TasksRepository {
     fun removeTask(task: ModelTask)
 
     fun getLastId(): Int
+
+    fun findTaskById(id: Int): Boolean
 }

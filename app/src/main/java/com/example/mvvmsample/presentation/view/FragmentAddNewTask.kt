@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.mvvmsample.TasksApp
@@ -29,13 +30,30 @@ class FragmentAddNewTask : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        model = (requireContext().applicationContext as TasksApp).appComponent.getMainViewModel(this)
+        initModel()
+        initListener()
+    }
+
+    private fun initModel() {
+        model =
+            (requireContext().applicationContext as TasksApp).appComponent.getMainViewModel(this)
+    }
+
+    private fun initListener() {
         binding.btnAddTask.setOnClickListener {
-            model.addTask(
+             model.addTask(
                 binding.editTaskName.text.toString(),
                 binding.editTaskDescription.text.toString()
             )
-            findNavController().navigateUp()
+
+            model.addTaskStatus.observe(viewLifecycleOwner, {
+                if (it) {
+                    findNavController().navigateUp()
+                } else {
+                    Toast.makeText(requireContext(), "Enter name", Toast.LENGTH_SHORT).show()
+                }
+            })
+
         }
     }
 

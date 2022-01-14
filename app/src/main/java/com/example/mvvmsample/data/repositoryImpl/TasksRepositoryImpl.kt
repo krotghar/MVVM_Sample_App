@@ -1,55 +1,76 @@
 package com.example.mvvmsample.data.repositoryImpl
 
-import android.view.Display
-import com.example.mvvmsample.data.model.RoomModelTask
-import com.example.mvvmsample.data.room.Database
-import com.example.mvvmsample.presentation.model.ModelTask
-import com.example.mvvmsample.presentation.repository.TasksRepository
+import com.example.mvvmsample.data.storage.model.RoomModelTask
+import com.example.mvvmsample.data.storage.roomdatabase.Database
+import com.example.mvvmsample.data.storage.roomdatabase.TaskDao
+import com.example.mvvmsample.domain.model.ModelTask
+import com.example.mvvmsample.domain.repository.TasksRepository
 
-class TasksRepositoryImpl(private val database: Database) : TasksRepository {
+/**
+ * Tasks repository impl
+ *
+ * @property storage передаем
+ * @constructor Create empty Tasks repository impl
+ */
+class TasksRepositoryImpl(private val storage: TaskDao) : TasksRepository {
 
 
     override fun getTasks(): List<ModelTask> {
-        val tasks = database.taskDao().getAllTasks()
+        val tasks = storage.getAllTasks()
         return tasks.map {
-            ModelTask(
-                it.id,
-                it.taskName,
-                it.taskDescription
-            )
+            createModelTaskFromRoomModelTask(it)
         }
     }
 
     override fun getTaskById(id: Int): ModelTask {
-       val task = database.taskDao().getTaskById(id)
-        return ModelTask(
-            task.id,
-            task.taskName,
-            task.taskDescription
-        )
+        val task = storage.getTaskById(id)
+        return createModelTaskFromRoomModelTask(task)
     }
 
     override fun addTask(task: ModelTask) {
-        database.taskDao().insertTask(
-            task = RoomModelTask(
-                task.id,
-                task.taskName,
-                task.taskDescription
-            )
+        storage.insertTask(
+            createRoomModelTaskFromModelTask(task)
         )
     }
 
     override fun removeTask(task: ModelTask) {
-        database.taskDao().delete(
-            task = RoomModelTask(
-                task.id,
-                task.taskName,
-                task.taskDescription
-            )
+        storage.delete(
+            createRoomModelTaskFromModelTask(task)
         )
     }
 
     override fun getLastId(): Int {
-        return database.taskDao().getRowCount()
+        return storage.getRowCount()
     }
+
+    override fun findTaskById(id: Int): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    /**
+     * Create model task from room model task
+     * @param roomModel - Модель используемая в нашем RoomStorage
+     * @return возвращает модель Domain слоя [ModelTask]
+     */
+    private fun createModelTaskFromRoomModelTask(roomModel: RoomModelTask?): ModelTask {
+        return ModelTask(
+            id = roomModel?.id ?: -1,
+            taskName = roomModel?.taskName ?: "",
+            taskDescription = roomModel?.taskDescription ?: ""
+        )
+    }
+
+    /**
+     * Create room model task from model task
+     * @param modelTask - модель Domain слоя
+     * @return возвращает модель для Room [RoomModelTask]
+     */
+    private fun createRoomModelTaskFromModelTask(modelTask: ModelTask): RoomModelTask {
+        return RoomModelTask(
+            id = modelTask.id,
+            taskName = modelTask.taskName,
+            taskDescription = modelTask.taskDescription
+        )
+    }
+
 }

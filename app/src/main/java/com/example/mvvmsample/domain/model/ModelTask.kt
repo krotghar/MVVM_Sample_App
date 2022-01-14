@@ -1,4 +1,4 @@
-package com.example.mvvmsample.presentation.model
+package com.example.mvvmsample.domain.model
 
 data class ModelTask(
     val id: Int,

@@ -1,8 +1,16 @@
-package com.example.mvvmsample.data.model
+package com.example.mvvmsample.data.storage.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+
+/**
+ * Room model task - модель, которая описывает сущность, хранимую в БД
+ *
+ * @property id id записи в БД
+ * @property taskName имя задачи
+ * @property taskDescription описание задачи
+ */
 
 @Entity(tableName = "task")
 data class RoomModelTask(
