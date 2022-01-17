@@ -9,6 +9,8 @@ import com.example.mvvmsample.domain.repository.TasksRepository
 import com.example.mvvmsample.domain.usecases.CreateTaskUseCase
 import com.example.mvvmsample.domain.usecases.GetTasksUseCase
 import com.example.mvvmsample.domain.usecases.RemoveTaskUseCase
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -70,10 +72,18 @@ class MainViewModel(private val repository: TasksRepository) : ViewModel() {
     )
 
     @Suppress("UNCHECKED_CAST")
-    class Factory(private val repo: TasksRepository) :
-        ViewModelProvider.NewInstanceFactory() {
+    class MainViewModelFactory @AssistedInject constructor(private val repo: TasksRepository) :
+        ViewModelProvider.Factory {
+
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return MainViewModel(repo) as T
         }
-    }
+
+        @AssistedFactory
+        interface Factory {
+
+            fun create(): MainViewModelFactory
+
+        }
+     }
 }

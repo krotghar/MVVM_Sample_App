@@ -2,8 +2,9 @@ package com.example.mvvmsample.domain.usecases
 
 import com.example.mvvmsample.domain.model.ModelTask
 import com.example.mvvmsample.domain.repository.TasksRepository
+import javax.inject.Inject
 
-class GetTaskByIdUseCase(private val tasksRepository: TasksRepository) {
+class GetTaskByIdUseCase @Inject constructor(private val tasksRepository: TasksRepository) {
 
     fun invoke(taskId: Int): Result<ModelTask> {
         val result = tasksRepository.getTaskById(taskId)

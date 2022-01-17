@@ -5,28 +5,32 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mvvmsample.R
-import com.example.mvvmsample.TasksApp
 import com.example.mvvmsample.databinding.FragmentTasksListBinding
 import com.example.mvvmsample.domain.model.ModelTask
+import com.example.mvvmsample.presentation.extension.appComponent
 import com.example.mvvmsample.presentation.viewmodel.MainViewModel
+import javax.inject.Inject
 
 class FragmentTaskList : Fragment(), OnItemClickListener {
 
     private lateinit var recyclerAdapter: TasksListAdapter
     private var _binding: FragmentTasksListBinding? = null
     private val binding get() = _binding!!
-    private lateinit var model: MainViewModel
+    private val model: MainViewModel by viewModels { factory.create() }
 
+    @Inject
+    lateinit var factory: MainViewModel.MainViewModelFactory.Factory
+
+    override fun onAttach(context: Context) {
+        context.appComponent.inject(this)
+        super.onAttach(context)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,7 +43,7 @@ class FragmentTaskList : Fragment(), OnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        model = (requireContext().applicationContext as TasksApp).appComponent.getMainViewModel(this)
+
         initRecycler()
         initData()
         initListener()

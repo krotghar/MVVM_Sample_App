@@ -1,16 +1,16 @@
 package com.example.mvvmsample.data.repositoryImpl
 
 import com.example.mvvmsample.data.storage.model.RoomModelTask
-import com.example.mvvmsample.data.storage.roomdatabase.Database
 import com.example.mvvmsample.data.storage.roomdatabase.TaskDao
 import com.example.mvvmsample.domain.model.ModelTask
 import com.example.mvvmsample.domain.repository.TasksRepository
+import javax.inject.Inject
 
 /**
  * Иплементация интерфейса репозитория
  * @property storage интерфейс для работы с хранилищем данных
  */
-class TasksRepositoryImpl(private val storage: TaskDao) : TasksRepository {
+class TasksRepositoryImpl @Inject constructor(private val storage: TaskDao) : TasksRepository {
 
     /**
      * Функция получения списка всех задач из Storage

@@ -1,7 +1,7 @@
-package com.example.mvvmsample.presentation
+package com.example.mvvmsample.presentation.view
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import com.example.mvvmsample.R
 import com.example.mvvmsample.databinding.ActivityMainBinding
