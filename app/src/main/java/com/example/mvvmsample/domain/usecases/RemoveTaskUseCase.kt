@@ -4,10 +4,10 @@ import com.example.mvvmsample.domain.model.ModelTask
 import com.example.mvvmsample.domain.repository.TasksRepository
 import javax.inject.Inject
 
-class RemoveTaskUseCase @Inject constructor(private val tasksRepository: TasksRepository) {
+class RemoveTaskUseCase @Inject constructor(private val tasksRepository: TasksRepository, private val getTaskByIdUseCase: GetTaskByIdUseCase) {
 
     fun invoke(task: ModelTask): Boolean {
-        if (GetTaskByIdUseCase(tasksRepository).invoke(task.id).isFailure)
+        if (getTaskByIdUseCase.invoke(task.id).isFailure)
             return false
 
         tasksRepository.removeTask(task)

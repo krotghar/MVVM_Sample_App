@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.mvvmsample.domain.model.ModelTask
 import com.example.mvvmsample.domain.repository.TasksRepository
 import com.example.mvvmsample.domain.usecases.CreateTaskUseCase
+import com.example.mvvmsample.domain.usecases.GetTaskByIdUseCase
 import com.example.mvvmsample.domain.usecases.GetTasksUseCase
 import com.example.mvvmsample.domain.usecases.RemoveTaskUseCase
 import dagger.assisted.AssistedFactory
@@ -14,7 +15,13 @@ import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MainViewModel(private val repository: TasksRepository) : ViewModel() {
+class MainViewModel(
+    private val repository: TasksRepository,
+    private val getTaskByIdUseCase: GetTaskByIdUseCase,
+    private val createTaskUseCase: CreateTaskUseCase,
+    private val getTasksUseCase: GetTasksUseCase,
+    private val removeTaskUseCase: RemoveTaskUseCase
+    ) : ViewModel() {
 
     private var _tasksLiveData = MutableLiveData<List<ModelTask>>()
     val tasksLiveData get() = _tasksLiveData
@@ -35,14 +42,14 @@ class MainViewModel(private val repository: TasksRepository) : ViewModel() {
     fun getTasks() {
         viewModelScope.launch(Dispatchers.IO) {
             _tasksLiveData.postValue(
-                GetTasksUseCase(repository).invoke()
+                getTasksUseCase.invoke()
             )
         }
     }
 
     fun addTask(taskName: String, taskDescription: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            _addTaskStatus.postValue(CreateTaskUseCase(repository).invoke(createModelTask(taskName, taskDescription)))
+            _addTaskStatus.postValue(createTaskUseCase.invoke(createModelTask(taskName, taskDescription)))
         }
         if (_addTaskStatus.value == true) {
             getTasks()
@@ -56,7 +63,7 @@ class MainViewModel(private val repository: TasksRepository) : ViewModel() {
      */
     fun removeTask(task: ModelTask) {
         viewModelScope.launch(Dispatchers.IO) {
-            _removeTaskStatus.postValue(RemoveTaskUseCase(repository).invoke(task))
+            _removeTaskStatus.postValue(removeTaskUseCase.invoke(task))
             if (_removeTaskStatus.value == true)
                 getTasks()
         }
@@ -72,11 +79,23 @@ class MainViewModel(private val repository: TasksRepository) : ViewModel() {
     )
 
     @Suppress("UNCHECKED_CAST")
-    class MainViewModelFactory @AssistedInject constructor(private val repo: TasksRepository) :
+    class MainViewModelFactory @AssistedInject constructor(
+        private val repo: TasksRepository,
+        private val getTaskByIdUseCase: GetTaskByIdUseCase,
+        private val createTaskUseCase: CreateTaskUseCase,
+        private val getTasksUseCase: GetTasksUseCase,
+        private val removeTaskUseCase: RemoveTaskUseCase
+        ) :
         ViewModelProvider.Factory {
 
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return MainViewModel(repo) as T
+            return MainViewModel(
+                repository = repo,
+                getTaskByIdUseCase = getTaskByIdUseCase,
+                createTaskUseCase = createTaskUseCase,
+                getTasksUseCase = getTasksUseCase,
+                removeTaskUseCase = removeTaskUseCase
+            ) as T
         }
 
         @AssistedFactory

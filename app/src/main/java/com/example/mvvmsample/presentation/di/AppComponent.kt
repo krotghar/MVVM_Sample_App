@@ -8,7 +8,7 @@ import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
 
-@Component(modules = [AppModule::class])
+@Component(modules = [AppModule::class, DomainModule::class])
 @Singleton
 interface AppComponent {
     fun inject(fragment: FragmentTaskList)

@@ -26,7 +26,6 @@ class AppModule {
     }
 
     @Provides
-    @Singleton
     fun provideTaskDao(db: Database) = db.taskDao()
 }
 
