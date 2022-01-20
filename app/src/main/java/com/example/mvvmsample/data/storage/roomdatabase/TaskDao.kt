@@ -5,6 +5,8 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.example.mvvmsample.data.storage.model.RoomModelTask
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Single
 
 /**
  * Task dao интерфейс, который предоставляет нам доступ к данным в нашей БД
@@ -19,7 +21,7 @@ interface TaskDao {
     fun getAllTasks(): List<RoomModelTask>
 
     @Insert
-    fun insertTask(task: RoomModelTask)
+    fun insertTask(task: RoomModelTask): Completable
 
     @Query("SELECT * FROM task WHERE id=:id")
     fun getTaskById(id: Int): RoomModelTask?
@@ -28,7 +30,7 @@ interface TaskDao {
     fun delete(task: RoomModelTask)
 
     @Query("SELECT COUNT(id) FROM task")
-    fun getRowCount(): Int
+    fun getRowCount(): Single<Int>
 
 
 }

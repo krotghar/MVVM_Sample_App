@@ -9,10 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MVVMSample"
-        android:name=".presentation.app.TasksApp"
+        android:name=".app.app.TasksApp"
         >
         <activity
-            android:name=".presentation.view.MainActivity"
+            android:name=".app.presentation.view.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

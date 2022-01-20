@@ -1,9 +1,9 @@
-package com.example.mvvmsample.presentation.di
+package com.example.mvvmsample.app.di
 
 import android.content.Context
-import com.example.mvvmsample.presentation.view.FragmentAddNewTask
-import com.example.mvvmsample.presentation.view.FragmentTask
-import com.example.mvvmsample.presentation.view.FragmentTaskList
+import com.example.mvvmsample.app.presentation.view.FragmentTask
+import com.example.mvvmsample.app.presentation.view.FragmentTaskList
+import com.example.mvvmsample.app.presentation.view.createtask.FragmentCreateNewTask
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -13,7 +13,7 @@ import javax.inject.Singleton
 interface AppComponent {
     fun inject(fragment: FragmentTaskList)
     fun inject(fragment: FragmentTask)
-    fun inject(fragmentAddNewTask: FragmentAddNewTask)
+    fun inject(fragmentCreateNewTask: FragmentCreateNewTask)
 
     @Component.Builder
     interface Builder {

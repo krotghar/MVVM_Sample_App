@@ -1,8 +1,8 @@
-package com.example.mvvmsample.presentation.app
+package com.example.mvvmsample.app.app
 
 import android.app.Application
-import com.example.mvvmsample.presentation.di.AppComponent
-import com.example.mvvmsample.presentation.di.DaggerAppComponent
+import com.example.mvvmsample.app.di.AppComponent
+import com.example.mvvmsample.app.di.DaggerAppComponent
 
 class TasksApp : Application() {
 

@@ -1,4 +1,4 @@
-package com.example.mvvmsample.presentation.di
+package com.example.mvvmsample.app.di
 
 import android.content.Context
 import androidx.room.Room.databaseBuilder

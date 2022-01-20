@@ -1,4 +1,4 @@
-package com.example.mvvmsample.presentation.di
+package com.example.mvvmsample.app.di
 
 import com.example.mvvmsample.domain.repository.TasksRepository
 import com.example.mvvmsample.domain.usecases.CreateTaskUseCase

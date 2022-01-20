@@ -1,8 +1,8 @@
-package com.example.mvvmsample.presentation.extension
+package com.example.mvvmsample.app.extension
 
 import android.content.Context
-import com.example.mvvmsample.presentation.app.TasksApp
-import com.example.mvvmsample.presentation.di.AppComponent
+import com.example.mvvmsample.app.app.TasksApp
+import com.example.mvvmsample.app.di.AppComponent
 
 val Context.appComponent: AppComponent
     get() = when (this) {

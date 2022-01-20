@@ -1,9 +1,13 @@
 package com.example.mvvmsample.data.repositoryImpl
 
+import android.util.Log
 import com.example.mvvmsample.data.storage.model.RoomModelTask
 import com.example.mvvmsample.data.storage.roomdatabase.TaskDao
 import com.example.mvvmsample.domain.model.ModelTask
 import com.example.mvvmsample.domain.repository.TasksRepository
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject
 
 /**
@@ -37,10 +41,19 @@ class TasksRepositoryImpl @Inject constructor(private val storage: TaskDao) : Ta
      * Добавление задачи в хранилище
      * @param task - задача [ModelTask]
      */
-    override fun addTask(task: ModelTask) {
-        storage.insertTask(
-            createRoomModelTaskFromModelTask(task)
-        )
+    override fun createTask(task: ModelTask): Boolean {
+        var result = false
+        storage.insertTask(createRoomModelTaskFromModelTask(task))
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                result = true
+                Log.d(this::class.simpleName, "Insert success")
+            }) {
+                result = false
+                Log.e(this::class.simpleName, it.message, it)
+            }
+        return result
     }
 
     /**
@@ -57,10 +70,10 @@ class TasksRepositoryImpl @Inject constructor(private val storage: TaskDao) : Ta
      * Получение последнего id задачи
      * @return возвращает id последней задачи в БД
      */
-    override fun getLastId(): Int {
+    override fun getLastId(): Single<Int> {
         return storage.getRowCount()
+            .subscribeOn(Schedulers.io())
     }
-
 
 
     /**

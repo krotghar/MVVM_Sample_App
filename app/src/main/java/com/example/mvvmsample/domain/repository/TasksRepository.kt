@@ -1,6 +1,7 @@
 package com.example.mvvmsample.domain.repository
 
 import com.example.mvvmsample.domain.model.ModelTask
+import io.reactivex.rxjava3.core.Single
 
 interface TasksRepository {
 
@@ -8,10 +9,10 @@ interface TasksRepository {
 
     fun getTaskById(id: Int): ModelTask
 
-    fun addTask(task: ModelTask)
+    fun createTask(task: ModelTask): Boolean
 
     fun removeTask(task: ModelTask)
 
-    fun getLastId(): Int
+    fun getLastId(): Single<Int>
 
 }

@@ -1,4 +1,4 @@
-package com.example.mvvmsample.presentation.view
+package com.example.mvvmsample.app.presentation.view
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,7 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mvvmsample.databinding.ItemTaskBinding
 import com.example.mvvmsample.domain.model.ModelTask
 
-class TasksListAdapter(val itemClickListener: OnItemClickListener) : ListAdapter<ModelTask, ItemTaskViewHolder>(DIFF_CALLBACK) {
+class TasksListAdapter(val itemClickListener: OnItemClickListener) : ListAdapter<ModelTask, ItemTaskViewHolder>(
+    DIFF_CALLBACK
+) {
 
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ModelTask>() {

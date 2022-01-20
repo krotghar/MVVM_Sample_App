@@ -1,4 +1,4 @@
-package com.example.mvvmsample.presentation.view
+package com.example.mvvmsample.app.presentation.view
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

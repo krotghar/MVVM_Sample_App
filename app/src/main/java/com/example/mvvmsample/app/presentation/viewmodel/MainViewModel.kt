@@ -1,4 +1,4 @@
-package com.example.mvvmsample.presentation.viewmodel
+package com.example.mvvmsample.app.presentation.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -32,8 +32,6 @@ class MainViewModel(
      */
 
 
-    private var _addTaskStatus = MutableLiveData<Boolean>()
-    val addTaskStatus get() = _addTaskStatus
 
     private var _removeTaskStatus = MutableLiveData<Boolean>()
     val removeTaskStatus get() = _removeTaskStatus
@@ -47,14 +45,7 @@ class MainViewModel(
         }
     }
 
-    fun addTask(taskName: String, taskDescription: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            _addTaskStatus.postValue(createTaskUseCase.invoke(createModelTask(taskName, taskDescription)))
-        }
-        if (_addTaskStatus.value == true) {
-            getTasks()
-        }
-    }
+
 
 
     /**
@@ -69,14 +60,7 @@ class MainViewModel(
         }
     }
 
-    private fun createModelTask(
-        taskName: String = "",
-        taskDescription: String = ""
-    ) = ModelTask(
-        repository.getLastId() + 1,
-        taskName,
-        taskDescription
-    )
+
 
     @Suppress("UNCHECKED_CAST")
     class MainViewModelFactory @AssistedInject constructor(

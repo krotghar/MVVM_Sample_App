@@ -1,4 +1,4 @@
-package com.example.mvvmsample.presentation.view
+package com.example.mvvmsample.app.presentation.view
 
 import android.content.Context
 import android.os.Bundle
@@ -11,8 +11,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.mvvmsample.databinding.FragmentTaskBinding
 import com.example.mvvmsample.domain.model.ModelTask
-import com.example.mvvmsample.presentation.extension.appComponent
-import com.example.mvvmsample.presentation.viewmodel.MainViewModel
+import com.example.mvvmsample.app.extension.appComponent
+import com.example.mvvmsample.app.presentation.viewmodel.MainViewModel
 import javax.inject.Inject
 
 class FragmentTask : Fragment() {

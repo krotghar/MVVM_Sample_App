@@ -6,12 +6,7 @@ import javax.inject.Inject
 
 class CreateTaskUseCase @Inject constructor(private val tasksRepository: TasksRepository) {
 
-    fun invoke(task: ModelTask): Boolean {
-        return if (task.taskName != "") {
-            tasksRepository.addTask(task)
-            true
-        } else {
-            false
-        }
-    }
+    fun invoke(task: ModelTask) = tasksRepository.createTask(task)
+
+
 }
